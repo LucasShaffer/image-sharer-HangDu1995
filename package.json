@@ -10,5 +10,13 @@
     "browserify": "^13.0.0",
     "browserify-incremental": "^3.1.1",
     "browserify-shim": "^3.8.12"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "jquery": "global:$"
   }
 }
