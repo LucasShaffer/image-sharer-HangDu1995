@@ -24,3 +24,5 @@ end
 # Forces all threads to share the same connection. This works on
 # Capybara because it starts the web server in a thread.
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+
+Capybara.default_driver = Capybara.javascript_driver
