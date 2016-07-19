@@ -1,0 +1,25 @@
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+  TargetRubyVersion: 2.3
+
+Metrics/LineLength:
+  Max: 112  # Maximum line length from `rails new`
+
+Rails:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/IndentArray:
+  EnforcedStyle: consistent
+
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
