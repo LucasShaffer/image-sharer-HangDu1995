@@ -1,6 +1,9 @@
 AllCops:
   Exclude:
     - 'db/schema.rb'
+    - 'log/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
   TargetRubyVersion: 2.3
 
 Metrics/LineLength:
