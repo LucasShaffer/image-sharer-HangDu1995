@@ -24,7 +24,5 @@ module Base
     config.action_dispatch.default_headers = {
       'Content-Security-Policy' => csp_settings.join(';')
     }
-
-    config.browserify_rails.commandline_options = '-t babelify'
   end
 end
