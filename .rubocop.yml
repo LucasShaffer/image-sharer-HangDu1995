@@ -6,6 +6,15 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.3
 
+Layout/IndentArray:
+  EnforcedStyle: consistent
+
+Layout/IndentHash:
+  EnforcedStyle: consistent
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
 Metrics/LineLength:
   Max: 112  # Maximum line length from `rails new`
 
@@ -17,12 +26,3 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-Style/IndentArray:
-  EnforcedStyle: consistent
-
-Style/IndentHash:
-  EnforcedStyle: consistent
-
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented

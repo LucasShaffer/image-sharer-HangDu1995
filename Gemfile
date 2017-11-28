@@ -33,12 +33,12 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console'
   gem 'listen', '~> 3.0.5'
+  gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'pronto-rubocop'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'pronto-rubocop'
 end
 
 group :production do
@@ -51,7 +51,7 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Allow use of ES6 (EMCAScript2015) modules.
 gem 'browserify-rails'
