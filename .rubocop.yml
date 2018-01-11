@@ -4,6 +4,8 @@ AllCops:
     - 'log/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'bin/*'
   TargetRubyVersion: 2.3
 
 Layout/IndentArray:
