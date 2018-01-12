@@ -6,7 +6,7 @@ AllCops:
     - 'vendor/**/*'
     - 'node_modules/**/*'
     - 'bin/*'
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
 
 Layout/IndentArray:
   EnforcedStyle: consistent
