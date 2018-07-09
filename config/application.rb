@@ -26,5 +26,7 @@ module Base
     config.action_dispatch.default_headers = {
       'Content-Security-Policy' => csp_settings.join(';')
     }
+
+    config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end
