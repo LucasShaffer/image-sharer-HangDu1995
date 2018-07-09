@@ -5,7 +5,7 @@ module PageObjects
 
       collection :images, locator: '#TODO', item_locator: '#TODO', contains: ImageCard do
         def view!
-          #TODO
+          # TODO
         end
       end
 
@@ -15,11 +15,11 @@ module PageObjects
       end
 
       def showing_image?(url:, tags: nil)
-        #TODO
+        # TODO
       end
 
       def clear_tag_filter!
-        #TODO
+        # TODO
       end
     end
   end

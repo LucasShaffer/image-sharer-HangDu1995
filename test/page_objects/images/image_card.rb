@@ -6,11 +6,11 @@ module PageObjects
       end
 
       def tags
-        #TODO
+        # TODO
       end
 
       def click_tag!(tag_name)
-        #TODO
+        # TODO
       end
     end
   end

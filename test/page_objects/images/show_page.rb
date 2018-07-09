@@ -4,25 +4,25 @@ module PageObjects
       path :image
 
       def image_url
-        #TODO
+        # TODO
       end
 
       def tags
-        #TODO
+        # TODO
       end
 
       def delete
-        #TODO
+        # TODO
         yield node.driver.browser.switch_to.alert
       end
 
       def delete_and_confirm!
-        #TODO
+        # TODO
         window.change_to(IndexPage)
       end
 
       def go_back_to_index!
-        #TODO
+        # TODO
       end
     end
   end

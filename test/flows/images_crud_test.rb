@@ -6,7 +6,7 @@ class ImagesCrudTest < FlowTestCase
 
     new_image_page = images_index_page.add_new_image!
 
-    tags = %w(foo bar)
+    tags = %w[foo bar]
     new_image_page = new_image_page.create_image!(
       url: 'invalid',
       tags: tags.join(', ')
@@ -53,29 +53,29 @@ class ImagesCrudTest < FlowTestCase
     assert_equal 'You have successfully deleted the image.', images_index_page.flash_message(:success)
 
     assert_equal 1, images_index_page.images.count
-    refute images_index_page.showing_image?(url: ugly_cat_url)
+    assert_not images_index_page.showing_image?(url: ugly_cat_url)
     assert images_index_page.showing_image?(url: cute_puppy_url)
   end
 
   test 'view images associated with a tag' do
-    puppy_url_1 = 'http://www.pawderosa.com/images/puppies.jpg'
-    puppy_url_2 = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
+    puppy_url1 = 'http://www.pawderosa.com/images/puppies.jpg'
+    puppy_url2 = 'http://ghk.h-cdn.co/assets/16/09/980x490/landscape-1457107485-gettyimages-512366437.jpg'
     cat_url = 'http://www.ugly-cat.com/ugly-cats/uglycat041.jpg'
     Image.create!([
-      { url: puppy_url_1, tag_list: 'superman, cute' },
-      { url: puppy_url_2, tag_list: 'cute, puppy' },
+      { url: puppy_url1, tag_list: 'superman, cute' },
+      { url: puppy_url2, tag_list: 'cute, puppy' },
       { url: cat_url, tag_list: 'cat, ugly' }
     ])
 
     images_index_page = PageObjects::Images::IndexPage.visit
-    [puppy_url_1, puppy_url_2, cat_url].each do |url|
+    [puppy_url1, puppy_url2, cat_url].each do |url|
       assert images_index_page.showing_image?(url: url)
     end
 
     images_index_page = images_index_page.images[1].click_tag!('cute')
 
     assert_equal 2, images_index_page.images.count
-    refute images_index_page.showing_image?(url: cat_url)
+    assert_not images_index_page.showing_image?(url: cat_url)
 
     images_index_page = images_index_page.clear_tag_filter!
     assert_equal 3, images_index_page.images.count

@@ -1,12 +1,12 @@
 module PageObjects
   module Images
     class NewPage < PageObjects::Document
-      path #TODO
+      path # TODO
 
-      form_for :image #TODO
+      form_for :image # TODO
 
       def create_image!(url: nil, tags: nil)
-        #TODO
+        # TODO
       end
     end
   end
