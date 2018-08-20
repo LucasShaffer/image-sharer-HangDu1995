@@ -19,10 +19,6 @@ jobs:
     steps:
       - checkout
 
-      # rugged gem has native extension, which needs cmake
-      - run:
-          command: sudo apt-get install cmake
-
       - run:
           name: Install and start geckodriver
           command: |
@@ -39,6 +35,11 @@ jobs:
             sudo apt-get update &&
             sudo apt-get install -t sid firefox &&
             firefox --version
+
+      # Install cmake, build-eseential since gem build with native extension needs it
+      - run:
+          name: Install build-essentail cmake
+          command: sudo apt-get install build-essential && sudo apt-get install cmake
 
       # Download and cache dependencies
       - restore_cache:
