@@ -81,6 +81,11 @@ jobs:
             mkdir /tmp/test-results
 
             bundle exec rake test
+
+      - run:
+          name: run react tests
+          command: npm run test
+
       - run:
           name: run rubocop
           command: bundle exec rubocop
