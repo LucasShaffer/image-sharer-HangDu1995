@@ -85,6 +85,10 @@ jobs:
           name: run rubocop
           command: bundle exec rubocop
 
+      - run:
+          name: run eslint
+          command: npm run lint
+
       # collect reports
       - store_test_results:
           path: /tmp/test-results
