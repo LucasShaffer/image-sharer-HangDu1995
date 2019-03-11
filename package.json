@@ -30,6 +30,6 @@
   },
   "scripts": {
     "lint": "eslint app/javascript",
-    "test:react": "mocha --recursive --compilers js:babel-register --require ignore-styles app/javascript/**/test"
+    "test": "mocha --recursive --compilers js:babel-register --require ignore-styles app/javascript/**/test"
   }
 }
