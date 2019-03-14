@@ -1,0 +1,14 @@
+{
+  "parser": "babel-eslint",
+  "extends": "appfolio-react",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {}
+    }
+  }
+}

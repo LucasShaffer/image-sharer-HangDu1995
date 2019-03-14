@@ -1,6 +1,6 @@
 class DeleteMe {
   constructor() {
-    this.message = 'This message is from delete_me.js. Delete this file when implementing share image.'
+    this.message = 'This message is from delete_me.js. Delete this folder when implementing share image.';
   }
 }
 
