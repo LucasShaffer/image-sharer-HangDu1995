@@ -1,20 +1,22 @@
 {
   "dependencies": {
-    "@rails/webpacker": "^3.5.5",
+    "@rails/webpacker": "^4.0.2",
     "autobind-decorator": "^2.1.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
     "babel-preset-react-native-stage-0": "^1.0.1",
-    "babel-preset-stage-1": "^6.24.1",
     "coffeescript": "1.12.7",
     "prop-types": "^15.6.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-transform-object-assign": "^7.2.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.4.0",
     "assert": "^1.4.1",
     "babel-eslint": "^10.0.1",
-    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -26,10 +28,10 @@
     "mocha": "^5.2.0",
     "react-test-renderer": "^16.8.4",
     "sinon": "^6.0.1",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.2.1"
   },
   "scripts": {
     "lint": "eslint app/javascript",
-    "test": "mocha --recursive --compilers js:babel-register --require app/javascript/testHelpers.js --require ignore-styles app/javascript/**/test"
+    "test": "mocha --recursive --compilers js:@babel/register --require app/javascript/testHelpers.js --require ignore-styles app/javascript/**/test"
   }
 }
