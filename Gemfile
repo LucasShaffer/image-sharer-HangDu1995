@@ -17,7 +17,7 @@ gem 'jquery-rails'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-gem 'webpacker', '~> 3.0'
+gem 'webpacker', '~> 4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
