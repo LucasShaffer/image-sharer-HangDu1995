@@ -6,3 +6,7 @@ ReactDOM.render(
   <App />,
   document.getElementById('feedback-root')
 );
+
+if (module.hot) {
+  module.hot.accept();
+}
