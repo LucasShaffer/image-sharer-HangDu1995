@@ -5,13 +5,13 @@ class ImageTest < ActiveSupport::TestCase
   #   assert true
   # end
 
-  test "should report error when no link" do
+  test 'should report error when no link' do
     image = Image.new
     assert_not image.save
   end
 
-  test "should report error when non-valid link" do
-    image = Image.new(link:'123')
+  test 'should report error when non-valid link' do
+    image = Image.new(link: '123')
     assert_not image.save
   end
 end
