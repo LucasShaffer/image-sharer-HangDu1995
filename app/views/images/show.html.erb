@@ -3,5 +3,7 @@
 </p>
 
 <p>
-  <%= image_tag @image.link %>
+  <%= image_tag(@image.link, :width => 400, :crop=>'limit') %>
 </p>
+
+<%= link_to 'Back', images_path %>
