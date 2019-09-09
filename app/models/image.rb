@@ -1,3 +1,4 @@
 class Image < ApplicationRecord
-  validates :link, url: true
+  validates :link, presence: true,
+            url: { allow_blank: true }
 end
