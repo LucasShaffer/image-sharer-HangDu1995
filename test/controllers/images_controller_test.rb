@@ -43,18 +43,19 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
   end
 
-  test 'new images should be added on top of the homepage' do
-    image_link = 'https://livewire.org.au/wp-content/uploads/2018/09/akita.jpg'
+  test 'new images should be added on top of others' do
+    image_link1 = 'https://livewire.org.au/wp-content/uploads/2018/09/akita.jpg'
+    image_link2 = 'https://www.rspcansw.org.au/wp-content/uploads/2017/08/50_a-feature_dogs-and-puppies_mobile.jpg'
 
-    assert_difference 'Image.count', +1 do
-      post images_path, params: { image: { link: image_link } }
-    end
+    Image.create!(:link => image_link1)
+    Image.create!(:link => image_link2)
 
-    assert_response 302 # save the image
-    get images_url # go back to image index page
+    get images_url
     assert_response 200
+    assert_equal @response.table, 'what'
 
+    
     # find the first image link
-    assert_select 'body table td', image_link
+    # assert_select 'body table td', image_link
   end
 end
