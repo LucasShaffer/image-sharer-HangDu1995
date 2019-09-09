@@ -54,7 +54,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     assert_equal @response.table, 'what'
 
-    
+
     # find the first image link
     # assert_select 'body table td', image_link
   end
