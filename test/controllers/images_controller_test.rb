@@ -37,4 +37,24 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_select '[src=?]', image_link
     end
   end
+
+  test 'should get image index page' do
+    get images_url
+    assert_response 200
+  end
+
+  test 'new images should be added on top of the homepage' do
+    image_link = 'https://livewire.org.au/wp-content/uploads/2018/09/akita.jpg'
+
+    assert_difference 'Image.count', +1 do
+      post images_path, params: { image: { link: image_link } }
+    end
+
+    assert_response 302 # save the image
+    get images_url # go back to image index page
+    assert_response 200
+
+    # find the first image link
+    assert_select 'body table td', image_link
+  end
 end
