@@ -1,4 +1,4 @@
-<%= form_with model: Image.new, local: true do |form| %>
+<%= form_with model: @image, local: true do |form| %>
     <% if @image.errors.any? %>
         <div id="error_explanation">
           <h2>
