@@ -94,14 +94,31 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
         assert_equal 'cute', elements[1].text
       end
     end
+
+    # tags also show on 'index' page for all images
+    get images_url
+    assert_select('.tags').first do
+      assert_select '.tag' do |elements|
+        assert_equal 2, elements.length
+        assert_equal 'dog', elements[0].text
+        assert_equal 'cute', elements[1].text
+      end
+    end
   end
 
-  test 'should create an image without tags' do
+  test 'should display None when no tags' do
     image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
     no_tag = nil
 
-    assert_difference 'Image.count', 1 do
-      assert Image.create!(link: image_link, tag_list: no_tag)
+    post images_path, params: { image: { link: image_link, tag_list: no_tag } }
+    follow_redirect!
+
+    # should be 'None' on 'show' page for the image
+    assert_select '.tags' do
+      assert_select '.tag' do |elements|
+        assert_equal 1, elements.length
+        assert_equal 'None', elements[0].text
+      end
     end
   end
 
