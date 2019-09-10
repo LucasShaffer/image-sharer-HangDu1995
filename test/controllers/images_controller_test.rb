@@ -1,4 +1,5 @@
 require 'test_helper'
+# rubocop:disable Metrics/ClassLength
 
 class ImagesControllerTest < ActionDispatch::IntegrationTest
   test 'should get image submission form' do
@@ -48,8 +49,6 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     image_link2 = 'https://www.rspcansw.org.au/wp-content/uploads/2017/08/50_a-feature_dogs-and-puppies_mobile.jpg'
     image_link3 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDhmZymtEItPYX5IqZXFqW_hMHFk5OOMqAnLKSipgHidR6XNtwrw'
 
-    links = [image_link1, image_link2, image_link3]
-
     Image.create!(link: image_link1, created_at: Time.zone.now)
     Image.create!(link: image_link2, created_at: Time.zone.now + 1.hour)
     Image.create!(link: image_link3, created_at: Time.zone.now + 2.hours)
@@ -57,22 +56,99 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     get images_url
     assert_response 200
     assert_select 'img' do |element|
-      assert_equal links[2], element[0][:src]
-      assert_equal links[1], element[1][:src]
-      assert_equal links[0], element[2][:src]
+      assert_equal image_link3, element[0][:src]
+      assert_equal image_link2, element[1][:src]
+      assert_equal image_link1, element[2][:src]
     end
   end
 
-  test 'should display tags' do
+  test 'should display tags on show page' do
     image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-    post images_path, params: { image: { link: image_link, tag_list: ['dog', 'cute'] } }
+    tags = %w[dog cute]
+
+    post images_path, params: { image: { link: image_link, tag_list: tags.join(',') } }
     follow_redirect!
 
-    assert_select 'p', 'whatever'
-
-    assert_select 'p' do |tags|
-      assert_equal 'dog, cute', tags[0]
+    # tags should show on 'show' page for the image
+    assert_select '.tags' do
+      assert_select '.tag' do |elements|
+        assert_equal 2, elements.length
+        assert_equal 'dog', elements[0].text
+        assert_equal 'cute', elements[1].text
+      end
     end
+  end
 
+  test 'should display tags on index page' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tags = %w[dog cute]
+
+    Image.create!(link: image_link, tag_list: tags.join(','))
+
+    # tags also show on 'index' page for all images
+    get images_url
+    assert_select('.tags').first do
+      assert_select '.tag' do |elements|
+        assert_equal 2, elements.length
+        assert_equal 'dog', elements[0].text
+        assert_equal 'cute', elements[1].text
+      end
+    end
+  end
+
+  test 'should create an image without tags' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    no_tag = nil
+
+    assert_difference 'Image.count', 1 do
+      assert Image.create!(link: image_link, tag_list: no_tag)
+    end
+  end
+
+  test 'should display None on show page when no tags' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    no_tag = nil
+
+    post images_path, params: { image: { link: image_link, tag_list: no_tag } }
+    follow_redirect!
+
+    # should be 'None' on 'show' page for the image
+    assert_select '.tags' do
+      assert_select '.tag' do |elements|
+        assert_equal 1, elements.length
+        assert_equal 'None', elements[0].text
+      end
+    end
+  end
+
+  test 'should display None on index page when no tags ' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    no_tag = nil
+
+    Image.create!(link: image_link, tag_list: no_tag)
+
+    # should be 'None' on 'index' page for all images
+    get images_url
+    assert_select('.tags').first do
+      assert_select '.tag' do |elements|
+        assert_equal 1, elements.length
+        assert_equal 'None', elements[0].text
+      end
+    end
+  end
+
+  test 'should keep tags when no link or non-valid link' do
+    image_link = nil
+    tags = %w[dog cute]
+
+    post images_path, params: { image: { link: image_link, tag_list: tags.join(',') } }
+    assert_response 422
+
+    # tags should still be 'dog, cute'
+    assert_select '.js-tag-list input' do
+      assert_select '[value=?]', tags.join(', ')
+    end
   end
 end
+
+# rubocop:enable Metrics/ClassLength

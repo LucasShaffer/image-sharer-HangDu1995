@@ -23,4 +23,23 @@ class ImageTest < ActiveSupport::TestCase
     n_error = image.errors.details[:link].length
     assert_equal n_error, 0
   end
+
+  test 'should have tags' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tags = %w[dog cute]
+
+    image = Image.new(link: image_link, tag_list: tags.join(','))
+    assert image.save
+    assert_equal 'dog', Image.last.tag_list[0]
+    assert_equal 'cute', Image.last.tag_list[1]
+  end
+
+  test 'should have no tag' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tags = nil
+
+    image = Image.new(link: image_link, tag_list: tags)
+    assert image.save
+    assert_equal 0, Image.last.tag_list.length
+  end
 end
