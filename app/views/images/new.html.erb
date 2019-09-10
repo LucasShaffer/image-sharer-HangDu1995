@@ -19,6 +19,16 @@
     </p>
 
     <p>
+      <%= 'Use comma to separate tags' %><br>
+      <%= form.label :tag_list, 'Tags' %>
+      <%=
+        form.text_field :tag_list,
+                        value: @image.send(:tag_list).to_s,
+                        placeholder: 'dog, happy'
+      %>
+    </p>
+
+    <p>
       <%= form.submit %>
     </p>
 <% end %>

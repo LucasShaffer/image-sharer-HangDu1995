@@ -3,7 +3,24 @@
 </p>
 
 <p>
-  <%= image_tag(@image.link, :width => 400, :crop=>'limit') %>
+  <%= image_tag(@image.link) %>
 </p>
+
+<p>
+  <%= 'Tag:' %><br/>
+</p>
+
+<p class="tags">
+  <% if @image.tag_list.any? %>
+      <% length =  @image.tag_list.length %>
+      <% for i in 0...length-1 %>
+          <%= @image.tag_list[i] + ',' %>
+      <% end %>
+      <%= @image.tag_list[length-1]%>
+  <% else %>
+      <%= 'None' %>
+  <% end %>
+</p>
+
 
 <%= link_to 'Back', images_path %>

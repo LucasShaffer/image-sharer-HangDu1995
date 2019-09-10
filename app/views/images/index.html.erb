@@ -1,10 +1,33 @@
 <h1>Listing Images</h1>
-<%= link_to 'New Image', new_image_path %>
 
+<p>
+  <%= link_to 'New Image', new_image_path %>
+</p>
+
+<p>
+  <%= '----------------------------------------------------------' %>
+</p>
 
 <% @images.each do |image| %>
     <p>
       <%= image_tag(image.link, :width => 400, :crop=>'limit') %>
+    </p>
+    <p>
+      <%= 'Tag: ' %>
+      <p class="tags">
+        <% if @image.tag_list.any? %>
+            <% length =  @image.tag_list.length %>
+            <% for i in 0...length-1 %>
+                <%= @image.tag_list[i] + ',' %>
+            <% end %>
+            <%= @image.tag_list[length-1]%>
+        <% else %>
+            <%= 'None' %>
+        <% end %>
+      </p>
+    </p>
+    <p>
+      <%= '----------------------------------------------------------' %>
     </p>
 <% end %>
 

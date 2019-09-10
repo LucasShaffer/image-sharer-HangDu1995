@@ -62,4 +62,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_equal links[0], element[2][:src]
     end
   end
+
+  test 'should display tags' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    post images_path, params: { image: { link: image_link, tag_list: ['dog', 'cute'] } }
+    follow_redirect!
+
+    assert_select 'p', 'whatever'
+
+    assert_select 'p' do |tags|
+      assert_equal 'dog, cute', tags[0]
+    end
+
+  end
 end
