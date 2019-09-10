@@ -1,0 +1,12 @@
+<h1>Listing Images</h1>
+<%= link_to 'New Image', new_image_path %>
+
+
+<% @images.each do |image| %>
+    <p>
+      <%= image_tag(image.link, :width => 400, :crop=>'limit') %>
+    </p>
+<% end %>
+
+
+

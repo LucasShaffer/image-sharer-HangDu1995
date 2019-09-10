@@ -1,4 +1,8 @@
 class ImagesController < ApplicationController
+  def index
+    @images = Image.order(created_at: :desc).all
+  end
+
   def show
     @image = Image.find(params[:id])
   end

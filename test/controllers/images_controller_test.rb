@@ -37,4 +37,29 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       assert_select '[src=?]', image_link
     end
   end
+
+  test 'should get image index page' do
+    get images_url
+    assert_response 200
+  end
+
+  test 'new images should be added on top of others' do
+    image_link1 = 'https://livewire.org.au/wp-content/uploads/2018/09/akita.jpg'
+    image_link2 = 'https://www.rspcansw.org.au/wp-content/uploads/2017/08/50_a-feature_dogs-and-puppies_mobile.jpg'
+    image_link3 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDhmZymtEItPYX5IqZXFqW_hMHFk5OOMqAnLKSipgHidR6XNtwrw'
+
+    links = [image_link1, image_link2, image_link3]
+
+    Image.create!(link: image_link1, created_at: Time.zone.now)
+    Image.create!(link: image_link2, created_at: Time.zone.now + 1.hour)
+    Image.create!(link: image_link3, created_at: Time.zone.now + 2.hours)
+
+    get images_url
+    assert_response 200
+    assert_select 'img' do |element|
+      assert_equal links[2], element[0][:src]
+      assert_equal links[1], element[1][:src]
+      assert_equal links[0], element[2][:src]
+    end
+  end
 end
