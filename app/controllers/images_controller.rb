@@ -21,6 +21,11 @@ class ImagesController < ApplicationController
     end
   end
 
+  def tagged
+    @tag = params[:tag]
+    @images = @tag.present? ? Image.tagged_with(@tag).order(created_at: :desc) : nil
+  end
+
   private
 
   def image_params

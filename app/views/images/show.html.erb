@@ -7,17 +7,26 @@
 </p>
 
 <p>
+  ----------------------------------------------------------
+</p>
+
+<p>
   <%= 'Tag:' %><br/>
 </p>
 
+
 <div class="tags">
     <% if @image.tag_list.any? %>
-      <% @image.tag_list.each do |tag| %>
-          <span class="tag"><%= tag %></span>
+      <% @image.tag_list.each do |t| %>
+          <span class="tag"><%= link_to t, tagged_path(tag: t) %></span>
       <% end %>
     <% else %>
       <span class="tag"><%= 'None' %></span>
     <% end %>
 </div>
+
+<p>
+  ----------------------------------------------------------
+</p>
 
 <%= link_to 'Back', images_path %>
