@@ -23,11 +23,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 422
   end
 
-  test 'should create and show when valid link' do
+  test 'should create and show when there are tags and valid link' do
     image_link = 'https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080'
+    tags = %w[dog cute]
 
     assert_difference 'Image.count', +1 do
-      post images_path, params: { image: { link: image_link } }
+      post images_path, params: { image: { link: image_link, tag_list: tags.join(',') } }
     end
 
     assert_response 302
@@ -48,10 +49,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     image_link1 = 'https://livewire.org.au/wp-content/uploads/2018/09/akita.jpg'
     image_link2 = 'https://www.rspcansw.org.au/wp-content/uploads/2017/08/50_a-feature_dogs-and-puppies_mobile.jpg'
     image_link3 = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDhmZymtEItPYX5IqZXFqW_hMHFk5OOMqAnLKSipgHidR6XNtwrw'
+    tag_list = 'dog'
 
-    Image.create!(link: image_link1, created_at: Time.zone.now)
-    Image.create!(link: image_link2, created_at: Time.zone.now + 1.hour)
-    Image.create!(link: image_link3, created_at: Time.zone.now + 2.hours)
+    Image.create!(link: image_link1, tag_list: tag_list, created_at: Time.zone.now)
+    Image.create!(link: image_link2, tag_list: tag_list, created_at: Time.zone.now + 1.hour)
+    Image.create!(link: image_link3, tag_list: tag_list, created_at: Time.zone.now + 2.hours)
 
     get images_url
     assert_response 200
@@ -97,33 +99,16 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'should display None on show page when no tags' do
-    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-    image = Image.create!(link: image_link, tag_list: nil)
-    image.reload
+  test 'should not save when no tags' do
+    image_link = 'whatever'
 
-    get image_url(image)
-    assert_response :ok
-    assert_select '.js-tags' do
-      assert_select '.js-tag' do |elements|
-        assert_equal 1, elements.length
-        assert_equal 'None', elements[0].text
-      end
+
+    assert_difference 'Image.count', 0 do
+      post images_path, params: { image: { link: image_link } }
     end
-  end
 
-  test 'should display None on index page when no tags ' do
-    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-
-    Image.create!(link: image_link, tag_list: nil)
-
-    get images_url
-    assert_select('.js-tags').first do
-      assert_select '.js-tag' do |elements|
-        assert_equal 1, elements.length
-        assert_equal 'None', elements[0].text
-      end
-    end
+    assert_response 422
+    assert_select '.image_tag_list .error', 'You need to enter at least one tag'
   end
 
   test 'should keep tags when no link or non-valid link' do
@@ -134,7 +119,17 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 422
 
     # tags should still be 'dog, cute' in the form field
-    assert_select '.js-tag-list input' do
+    assert_select '.image_tag_list input' do
+      assert_select '[value=?]', tags.join(', ')
+    end
+
+    image_link = '123'
+
+    post images_path, params: { image: { link: image_link, tag_list: tags.join(',') } }
+    assert_response 422
+
+    # tags should still be 'dog, cute' in the form field
+    assert_select '.image_tag_list input' do
       assert_select '[value=?]', tags.join(', ')
     end
   end
@@ -180,12 +175,6 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_select 'img', 0
   end
 
-  test 'should display message when no tag provided' do
-    get images_url, params: { tag: nil }
-    assert_response 200
-    assert_select 'img', Image.count
-  end
-
   test 'should destroy image' do
     image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
     tag_list = 'dog'
@@ -196,6 +185,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
       delete image_url(image)
       assert_response 302
     end
+  end
+
+  test 'should display all images when no tag provided' do
+    get images_url, params: { tag: nil }
+    assert_response 200
+    assert_select 'img', Image.count
   end
 end
 
