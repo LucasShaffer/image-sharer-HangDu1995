@@ -54,3 +54,6 @@ gem 'validate_url'
 
 # tag system
 gem 'acts-as-taggable-on', '~> 6.0'
+
+# Simple form
+gem 'simple_form'

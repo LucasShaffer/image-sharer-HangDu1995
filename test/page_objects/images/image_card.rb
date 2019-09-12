@@ -6,11 +6,13 @@ module PageObjects
       end
 
       def tags
-        # TODO
+        node.all('.js-tag').map(&:text)
       end
 
       def click_tag!(tag_name)
-        # TODO
+        path = ".//a[@href='/images?tag=#{tag_name}']"
+        node.find(:xpath, path).click
+        window.change_to(IndexPage)
       end
     end
   end

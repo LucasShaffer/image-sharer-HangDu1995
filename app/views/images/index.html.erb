@@ -1,4 +1,22 @@
-<h1>Listing Images</h1>
+<div class="container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+  <%= yield %>
+</div>
+
+<% if @tag.present? %>
+  <h1><%= "Images with tag: #{@tag}" %></h1>
+<% else %>
+  <h1>Listing Images</h1>
+<% end %>
+
+<p>
+  <% if @tag.present? %>
+    <%= link_to 'Back', images_path %>
+  <% end %>
+</p>
+
 
 <p>
   <%= link_to 'New Image', new_image_path %>
@@ -8,29 +26,42 @@
   ----------------------------------------------------------
 </p>
 
-<% @images.each do |image| %>
-    <p>
-      <%= image_tag(image.link, :width => 400, :crop=>'limit') %>
-    </p>
+<div id="image_list">
+  <% @images.each do |image| %>
+    <div id="image_card">
+      <p>
+        <%= image_tag(image.link, :width => 400, :crop=>'limit') %>
+      </p>
 
-    <p>
-      <%= 'Tag: ' %>
-    </p>
+      <p>
+        <%= 'Tag: ' %>
+      </p>
 
-    <p class="tags">
-      <% if image.tag_list.any? %>
+      <p class="js-tags">
+        <% if image.tag_list.any? %>
           <% image.tag_list.each do |t| %>
-              <span class="tag"><%= link_to t, tagged_path(tag: t) %></span>
+            <span class="js-tag"><%= link_to t, images_path(tag: t) %></span>
           <% end %>
-      <% else %>
-          <span class="tag"><%= 'None' %></span>
-      <% end %>
-    </p>
+        <% else %>
+          <span class="js-tag"><%= 'None' %></span>
+        <% end %>
+      </p>
 
-    <p>
-      ----------------------------------------------------------
-    </p>
-<% end %>
+      <tr>
+        <td><%= link_to 'Show', image_path(image) %></td>
+        <td><%= link_to 'Destroy', image_path(image),
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+
+      <p>
+        ----------------------------------------------------------
+      </p>
+    </div>
+  <% end %>
+</div>
+
+
 
 
 

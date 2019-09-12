@@ -1,6 +1,11 @@
 class ImagesController < ApplicationController
   def index
-    @images = Image.order(created_at: :desc).all
+    @tag = params[:tag]
+    @images = if @tag.present?
+                Image.tagged_with(@tag).order(created_at: :desc)
+              else
+                Image.order(created_at: :desc).all
+              end
   end
 
   def show
@@ -15,15 +20,19 @@ class ImagesController < ApplicationController
     @image = Image.new(image_params)
 
     if @image.save
+      flash[:success] = 'You have successfully added an image.'
       redirect_to @image
     else
       render 'new', status: 422
     end
   end
 
-  def tagged
-    @tag = params[:tag]
-    @images = @tag.present? ? Image.tagged_with(@tag).order(created_at: :desc) : nil
+  def destroy
+    @image = Image.find(params[:id])
+    @image.destroy
+    flash[:success] = 'You have successfully deleted the image.'
+
+    redirect_to images_path
   end
 
   private

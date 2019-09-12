@@ -5,7 +5,7 @@ module PageObjects
         parent = find_parent
 
         Capybara.using_wait_time(0) do
-          parent.find('.help-block').text
+          parent.find('.error').text
         rescue Capybara::ElementNotFound
           ''
         end
@@ -14,7 +14,7 @@ module PageObjects
       private
 
       def find_parent
-        node.find(:xpath, "ancestor::*[contains(concat(' ',normalize-space(@class), ' '),' form-group ')][1]")
+        node.find(:xpath, "ancestor::*[contains(concat(' ',normalize-space(@class), ' '),' field_with_errors ')][1]")
       end
     end
   end

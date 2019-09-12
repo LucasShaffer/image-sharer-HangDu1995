@@ -2,6 +2,13 @@
   <strong>This is the image:</strong>
 </p>
 
+<div class="container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+  <%= yield %>
+</div>
+
 <p>
   <%= image_tag(@image.link) %>
 </p>
@@ -14,14 +21,13 @@
   <%= 'Tag:' %><br/>
 </p>
 
-
-<div class="tags">
+<div class="js-tags">
     <% if @image.tag_list.any? %>
       <% @image.tag_list.each do |t| %>
-          <span class="tag"><%= link_to t, tagged_path(tag: t) %></span>
+          <span class="js-tag"><%= link_to t, images_path(tag: t) %></span>
       <% end %>
     <% else %>
-      <span class="tag"><%= 'None' %></span>
+      <span class="js-tag"><%= 'None' %></span>
     <% end %>
 </div>
 
@@ -30,3 +36,6 @@
 </p>
 
 <%= link_to 'Back', images_path %>
+<td><%= link_to 'Destroy', image_path(@image),
+                method: :delete,
+                data: { confirm: 'Are you sure?' } %></td>

@@ -188,6 +188,9 @@ GEM
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
+    simple_form (4.1.0)
+      actionpack (>= 5.0)
+      activemodel (>= 5.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -232,11 +235,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-<<<<<<< HEAD
   acts-as-taggable-on (~> 6.0)
-=======
   ae_page_objects
->>>>>>> Add ae_page_objects
   byebug
   capybara
   jquery-rails
@@ -247,6 +247,7 @@ DEPENDENCIES
   rails (~> 5.2.0)
   sass-rails (~> 5.0, >= 5.0.6)
   selenium-webdriver
+  simple_form
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3

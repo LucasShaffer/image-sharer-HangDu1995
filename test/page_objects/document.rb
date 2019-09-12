@@ -1,7 +1,7 @@
 module PageObjects
   class Document < AePageObjects::Document
     def flash_message(message_type)
-      # TODO
+      node.find(".alert.alert-#{message_type}").text
     end
   end
 end
