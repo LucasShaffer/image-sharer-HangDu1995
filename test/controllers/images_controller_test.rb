@@ -66,10 +66,11 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
     tags = %w[dog cute]
 
-    post images_path, params: { image: { link: image_link, tag_list: tags.join(',') } }
-    follow_redirect!
+    image = Image.create!(link: image_link, tag_list: tags.join(','))
+    image.reload
 
-    # tags should show on 'show' page for the image
+    get image_url(image)
+    assert_response :ok
     assert_select '.tags' do
       assert_select '.tag' do |elements|
         assert_equal 2, elements.length
@@ -85,8 +86,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     Image.create!(link: image_link, tag_list: tags.join(','))
 
-    # tags also show on 'index' page for all images
     get images_url
+    assert_response :ok
     assert_select('.tags').first do
       assert_select '.tag' do |elements|
         assert_equal 2, elements.length
@@ -96,23 +97,13 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'should create an image without tags' do
-    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-    no_tag = nil
-
-    assert_difference 'Image.count', 1 do
-      assert Image.create!(link: image_link, tag_list: no_tag)
-    end
-  end
-
   test 'should display None on show page when no tags' do
     image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-    no_tag = nil
+    image = Image.create!(link: image_link, tag_list: nil)
+    image.reload
 
-    post images_path, params: { image: { link: image_link, tag_list: no_tag } }
-    follow_redirect!
-
-    # should be 'None' on 'show' page for the image
+    get image_url(image)
+    assert_response :ok
     assert_select '.tags' do
       assert_select '.tag' do |elements|
         assert_equal 1, elements.length
@@ -123,11 +114,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should display None on index page when no tags ' do
     image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-    no_tag = nil
 
-    Image.create!(link: image_link, tag_list: no_tag)
+    Image.create!(link: image_link, tag_list: nil)
 
-    # should be 'None' on 'index' page for all images
     get images_url
     assert_select('.tags').first do
       assert_select '.tag' do |elements|
@@ -144,10 +133,58 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     post images_path, params: { image: { link: image_link, tag_list: tags.join(',') } }
     assert_response 422
 
-    # tags should still be 'dog, cute'
+    # tags should still be 'dog, cute' in the form field
     assert_select '.js-tag-list input' do
       assert_select '[value=?]', tags.join(', ')
     end
+  end
+
+  test 'should display images with valid tag' do
+    link1 = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    link2 = 'https://i.kinja-img.com/gawker-media/image/upload/s--Z_YUWgMx--/c_scale,f_auto,fl_progressive,q_80,w_800/etw5ahwcfttkqikxbfg3.jpg'
+    link3 = 'https://www.humanesociety.org/sites/default/files/styles/400x400/public/2018/06/cat-217679.jpg?h=c4ed616d&itok=H0FcH69a'
+
+    tag1 = 'dog'
+    tag2 = 'cute'
+
+    Image.create!(link: link1, tag_list: tag1 + ',' + tag2, created_at: Time.zone.now)
+    Image.create!(link: link2, tag_list: tag1 + ',beautiful', created_at: Time.zone.now + 1.hour)
+    Image.create!(link: link3, tag_list: 'cat,' + tag2, created_at: Time.zone.now + 2.hours)
+
+    # images with tag1 'dog' should be link2 and link1 (in order)
+    get tagged_url, params: { tag: tag1 }
+    assert_response 200
+    assert 'h1', 'Images with tag: ' + tag1
+    assert_select 'img' do |elements|
+      assert_equal 2, elements.length
+      assert_equal link2, elements[0][:src]
+      assert_equal link1, elements[1][:src]
+    end
+
+    # images with tag2 'cute' should be link3 and link1 (in order)
+    get tagged_url, params: { tag: tag2 }
+    assert_response 200
+    assert 'h1', 'Images with tag: ' + tag2
+    assert_select 'img' do |elements|
+      assert_equal 2, elements.length
+      assert_equal link3, elements[0][:src]
+      assert_equal link1, elements[1][:src]
+    end
+  end
+
+  test 'should be no image if this tag does not exist' do
+    tag_no_record = 'flfkjfjthhdhf'
+    get tagged_url, params: { tag: tag_no_record }
+    assert_response 200
+    assert 'h1', 'No image found with tag: ' + tag_no_record
+    assert_select 'img', 0
+  end
+
+  test 'should display message when no tag provided' do
+    get tagged_url, params: { tag: nil }
+    assert_response 200
+    assert 'h1', 'No tag provided'
+    assert_select 'img', 0
   end
 end
 
