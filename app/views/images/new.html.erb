@@ -8,7 +8,7 @@
     <%= form.label :tag_list %>
     <%=
       form.text_field :tag_list,
-                      value: @image.send(:tag_list).to_s,
+                      value: @image.tag_list.to_s,
                       placeholder: 'dog, happy',
                       class: "js-tags"
     %>

@@ -185,6 +185,18 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     assert_select 'img', Image.count
   end
+
+  test 'should destroy image' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    assert_difference 'Image.count', -1 do
+      delete image_url(image)
+      assert_response 302
+    end
+  end
 end
 
 # rubocop:enable Metrics/ClassLength
