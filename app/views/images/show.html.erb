@@ -28,7 +28,12 @@
   ----------------------------------------------------------
 </p>
 
-<%= link_to 'Back', images_path %>
-<td><%= link_to 'Destroy', image_path(@image),
-                method: :delete,
-                data: { confirm: 'Are you sure?' } %></td>
+<table class="js-action-list">
+  <tr>
+    <td class="js-back"><%= link_to 'Back', images_path %></td>
+    <td class="js-destroy"><%= link_to 'Destroy', image_path(@image),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' } %></td>
+    <td class="js-edit"><%= link_to 'Edit', edit_image_path(@image) %></td>
+  </tr>
+</table>

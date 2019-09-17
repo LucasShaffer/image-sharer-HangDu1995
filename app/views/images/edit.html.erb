@@ -1,13 +1,8 @@
 <h1>
-  Add new image
+  Edit tags
 </h1>
 
 <%= simple_form_for @image do |form| %>
-  <p>
-    <%= form.input :link, class: "js-link", as: :string %>
-  </p>
-
-  <p class="js-tag-list">
     <%= 'Use comma to separate tags' %><br>
     <%=
       form.input :tag_list, required: true,

@@ -201,6 +201,76 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     assert_select 'img', Image.count
   end
+
+  test 'There is a link to edit the tags for an image on index page' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog,cute'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    get images_url
+    assert_response :ok
+    assert_select "a[href=?]", "/images/#{image.id}/edit"
+
+  end
+
+  test 'There is a link to edit the tags for an image on show page' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog,cute'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    get images_url(image)
+    assert_response :ok
+    assert_select "a[href=?]", "/images/#{image.id}/edit"
+
+  end
+
+  test 'can get to the edit page' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog, cute'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    get edit_image_url(image)
+    assert_response :ok
+  end
+
+  test 'tags are to be modified is displayed on the edit page' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog, cute'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    get edit_image_url(image)
+    assert_select('.field_without_errors') do
+      assert_select 'input[value=?]', tag_list
+    end
+  end
+
+  test 'can not save non-valid tags when editing' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog, cute'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    patch update_image_path(image), params: { image: {link: image_link, tag_list: nil} }
+    assert_response 422
+  end
+
+  test 'changes of tags are saved' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog, cute'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    new_tag_list = 'dog, kawaii'
+    patch update_image_path(image), params: { image: {link: image_link, tag_list: new_tag_list} }
+
+    image.reload
+
+    assert_equal new_tag_list, image.tags.join(', ')
+  end
 end
 
 # rubocop:enable Metrics/ClassLength
