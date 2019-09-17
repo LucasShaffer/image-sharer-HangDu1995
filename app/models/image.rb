@@ -10,6 +10,6 @@ class Image < ApplicationRecord
   private
 
   def tag_list_presence
-    errors.add(:tag_list, 'You need to enter at least one tag') if tag_list.length == 0
+    errors.add(:tag_list, 'You need to enter at least one tag') if tag_list.empty?
   end
 end

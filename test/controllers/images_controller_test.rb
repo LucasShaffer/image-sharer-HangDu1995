@@ -112,7 +112,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should not save when no tags and no link' do
     assert_difference 'Image.count', 0 do
-      post images_path, params: { image: {link: nil, tag_list: nil} }
+      post images_path, params: { image: { link: nil, tag_list: nil } }
     end
 
     assert_response 422
