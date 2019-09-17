@@ -71,8 +71,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get image_url(image)
     assert_response :ok
-    assert_select '.tags' do
-      assert_select '.tag' do |elements|
+    assert_select '.js-tags' do
+      assert_select '.js-tag' do |elements|
         assert_equal 2, elements.length
         assert_equal 'dog', elements[0].text
         assert_equal 'cute', elements[1].text
@@ -88,8 +88,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get images_url
     assert_response :ok
-    assert_select('.tags').first do
-      assert_select '.tag' do |elements|
+    assert_select('.js-tags').first do
+      assert_select '.js-tag' do |elements|
         assert_equal 2, elements.length
         assert_equal 'dog', elements[0].text
         assert_equal 'cute', elements[1].text
@@ -104,8 +104,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get image_url(image)
     assert_response :ok
-    assert_select '.tags' do
-      assert_select '.tag' do |elements|
+    assert_select '.js-tags' do
+      assert_select '.js-tag' do |elements|
         assert_equal 1, elements.length
         assert_equal 'None', elements[0].text
       end
@@ -118,8 +118,8 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     Image.create!(link: image_link, tag_list: nil)
 
     get images_url
-    assert_select('.tags').first do
-      assert_select '.tag' do |elements|
+    assert_select('.js-tags').first do
+      assert_select '.js-tag' do |elements|
         assert_equal 1, elements.length
         assert_equal 'None', elements[0].text
       end
@@ -147,12 +147,12 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     tag1 = 'dog'
     tag2 = 'cute'
 
-    Image.create!(link: link1, tag_list: tag1 + ',' + tag2, created_at: Time.zone.now)
-    Image.create!(link: link2, tag_list: tag1 + ',beautiful', created_at: Time.zone.now + 1.hour)
-    Image.create!(link: link3, tag_list: 'cat,' + tag2, created_at: Time.zone.now + 2.hours)
+    Image.create!(link: link1, tag_list: "#{tag1}, #{tag2}", created_at: Time.zone.now)
+    Image.create!(link: link2, tag_list: "#{tag1},beautiful", created_at: Time.zone.now + 1.hour)
+    Image.create!(link: link3, tag_list: "cat,#{tag2}", created_at: Time.zone.now + 2.hours)
 
     # images with tag1 'dog' should be link2 and link1 (in order)
-    get tagged_url, params: { tag: tag1 }
+    get images_url, params: { tag: tag1 }
     assert_response 200
     assert 'h1', 'Images with tag: ' + tag1
     assert_select 'img' do |elements|
@@ -162,9 +162,9 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     end
 
     # images with tag2 'cute' should be link3 and link1 (in order)
-    get tagged_url, params: { tag: tag2 }
+    get images_url, params: { tag: tag2 }
     assert_response 200
-    assert 'h1', 'Images with tag: ' + tag2
+    assert 'h1', "Images with tag: #{tag2}"
     assert_select 'img' do |elements|
       assert_equal 2, elements.length
       assert_equal link3, elements[0][:src]
@@ -173,18 +173,29 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should be no image if this tag does not exist' do
-    tag_no_record = 'flfkjfjthhdhf'
-    get tagged_url, params: { tag: tag_no_record }
+    tag_no_record = 'whatever'
+    get images_url, params: { tag: tag_no_record }
     assert_response 200
-    assert 'h1', 'No image found with tag: ' + tag_no_record
+    assert_select 'h1', "Images with tag: #{tag_no_record}"
     assert_select 'img', 0
   end
 
   test 'should display message when no tag provided' do
-    get tagged_url, params: { tag: nil }
+    get images_url, params: { tag: nil }
     assert_response 200
-    assert 'h1', 'No tag provided'
-    assert_select 'img', 0
+    assert_select 'img', Image.count
+  end
+
+  test 'should destroy image' do
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
+    tag_list = 'dog'
+
+    image = Image.create!(link: image_link, tag_list: tag_list)
+
+    assert_difference 'Image.count', -1 do
+      delete image_url(image)
+      assert_response 302
+    end
   end
 end
 

@@ -41,6 +41,7 @@ group :production do
 end
 
 group :test do
+  gem 'ae_page_objects'
   gem 'capybara'
   gem 'selenium-webdriver'
 end
@@ -53,3 +54,6 @@ gem 'validate_url'
 
 # tag system
 gem 'acts-as-taggable-on', '~> 6.0'
+
+# Simple form
+gem 'simple_form'

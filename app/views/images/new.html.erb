@@ -1,36 +1,22 @@
-<%= form_with model: @image, local: true do |form| %>
-    <% if @image.errors.any? %>
-        <div id="error_explanation">
-          <h2>
-            <%= pluralize(@image.errors.count, "error") %> prohibited
-            this image link from being saved:
-          </h2>
-          <ul>
-            <% @image.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-          </ul>
-        </div>
-    <% end %>
+<%= simple_form_for @image do |form| %>
+  <p>
+    <%= form.input :link, class: "js-link", as: :string %>
+  </p>
 
-    <p>
-      <%= form.label :link %><br>
-      <%= form.text_field :link %>
-    </p>
+  <p class="js-tag-list">
+    <%= 'Use comma to separate tags' %><br>
+    <%= form.label :tag_list %>
+    <%=
+      form.text_field :tag_list,
+                      value: @image.tag_list.to_s,
+                      placeholder: 'dog, happy',
+                      class: "js-tags"
+    %>
+  </p>
 
-    <p class="js-tag-list">
-      <%= 'Use comma to separate tags' %><br>
-      <%= form.label :tag_list, 'Tags' %>
-      <%=
-        form.text_field :tag_list,
-                        value: @image.send(:tag_list).to_s,
-                        placeholder: 'dog, happy'
-      %>
-    </p>
-
-    <p>
-      <%= form.submit %>
-    </p>
+  <p>
+    <%= form.submit %>
+  </p>
 <% end %>
 
 <%= link_to 'Back', images_path %>
