@@ -100,14 +100,23 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not save when no tags' do
-    image_link = 'whatever'
-
+    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
 
     assert_difference 'Image.count', 0 do
       post images_path, params: { image: { link: image_link } }
     end
 
     assert_response 422
+    assert_select '.image_tag_list .error', 'You need to enter at least one tag'
+  end
+
+  test 'should not save when no tags and no link' do
+    assert_difference 'Image.count', 0 do
+      post images_path, params: { image: {link: nil, tag_list: nil} }
+    end
+
+    assert_response 422
+    assert_select '.image_link .error', 'can\'t be blank'
     assert_select '.image_tag_list .error', 'You need to enter at least one tag'
   end
 
