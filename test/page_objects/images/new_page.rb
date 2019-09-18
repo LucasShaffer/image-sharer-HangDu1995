@@ -4,7 +4,6 @@ module PageObjects
       path :new_image
       path :images # from a failed creation
 
-      # done
       form_for :image do
         element :link
         element :tag_list

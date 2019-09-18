@@ -30,5 +30,5 @@ link_list = [
 ]
 
 link_list.each do |link|
-  Image.create!(link: link)
+  Image.create!(link: link, tag_list: 'default')
 end

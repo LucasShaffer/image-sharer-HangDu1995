@@ -4,24 +4,45 @@ class ImageTest < ActiveSupport::TestCase
   test 'should report error when no link' do
     image = Image.new
     assert_not image.save
-    error = image.errors.details[:link][0][:error]
-    assert_equal error, :blank
+
+    error_link = image.errors.details[:link][0][:error]
+
+    assert_equal :blank, error_link
   end
 
   test 'should report error when non-valid link' do
     image_link = '123'
     image = Image.new(link: image_link)
+
     assert_not image.save
-    error = image.errors.details[:link][0][:error]
-    assert_equal error, :url
+
+    error_link = image.errors.details[:link][0][:error]
+
+    assert_equal :url, error_link
   end
 
-  test 'should pass when valid link' do
+  test 'should report error when no tag' do
     image_link = 'https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/08/Pomeranian_01.jpg?bust=1538074638&width=290'
     image = Image.new(link: image_link)
+
+    assert_not image.save
+
+    error_tags = image.errors.details[:tag_list][0][:error]
+    assert_equal 'You need to enter at least one tag', error_tags
+  end
+
+  test 'should pass when valid link and tags' do
+    image_link = 'https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/08/Pomeranian_01.jpg?bust=1538074638&width=290'
+    tag_list = 'dog'
+    image = Image.new(link: image_link, tag_list: tag_list)
+
     assert image.save
-    n_error = image.errors.details[:link].length
-    assert_equal n_error, 0
+
+    n_error_link = image.errors.details[:link].length
+    assert_equal 0, n_error_link
+
+    n_error_tags = image.errors.details[:tags].length
+    assert_equal 0, n_error_tags
   end
 
   test 'should have tags' do
@@ -32,14 +53,5 @@ class ImageTest < ActiveSupport::TestCase
     assert image.save
     assert_equal 'dog', Image.last.tag_list[0]
     assert_equal 'cute', Image.last.tag_list[1]
-  end
-
-  test 'should have no tag' do
-    image_link = 'https://petlandstl.com/wp-content/themes/cosmick-petland-global/images/cta1-1.jpg'
-    tags = nil
-
-    image = Image.new(link: image_link, tag_list: tags)
-    assert image.save
-    assert_equal 0, Image.last.tag_list.length
   end
 end

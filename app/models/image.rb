@@ -5,4 +5,11 @@ class Image < ApplicationRecord
             url: {
               allow_blank: true
             }
+  validate :tag_list_presence
+
+  private
+
+  def tag_list_presence
+    errors.add(:tag_list, 'You need to enter at least one tag') if tag_list.empty?
+  end
 end

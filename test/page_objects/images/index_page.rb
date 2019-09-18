@@ -1,4 +1,4 @@
-require 'flow_test_helper'
+require_relative 'image_card'
 
 module PageObjects
   module Images
