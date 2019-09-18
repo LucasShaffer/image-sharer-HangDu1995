@@ -210,8 +210,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get images_url
     assert_response :ok
-    assert_select "a[href=?]", "/images/#{image.id}/edit"
-
+    assert_select 'a[href=?]', "/images/#{image.id}/edit"
   end
 
   test 'There is a link to edit the tags for an image on show page' do
@@ -222,8 +221,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     get images_url(image)
     assert_response :ok
-    assert_select "a[href=?]", "/images/#{image.id}/edit"
-
+    assert_select 'a[href=?]', "/images/#{image.id}/edit"
   end
 
   test 'can get to the edit page' do
@@ -254,7 +252,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
 
     image = Image.create!(link: image_link, tag_list: tag_list)
 
-    patch update_image_path(image), params: { image: {link: image_link, tag_list: nil} }
+    patch update_image_path(image), params: { image: { link: image_link, tag_list: nil } }
     assert_response 422
   end
 
@@ -265,7 +263,7 @@ class ImagesControllerTest < ActionDispatch::IntegrationTest
     image = Image.create!(link: image_link, tag_list: tag_list)
 
     new_tag_list = 'dog, kawaii'
-    patch update_image_path(image), params: { image: {link: image_link, tag_list: new_tag_list} }
+    patch update_image_path(image), params: { image: { link: image_link, tag_list: new_tag_list } }
 
     image.reload
 
