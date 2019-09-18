@@ -8,7 +8,7 @@
     <%=
       form.input :tag_list, required: true,
                  input_html: {
-                   value: @image.send(:tag_list).to_s,
+                   value: @image.tag_list.to_s,
                    placeholder: 'dog, happy'
                  },
                  class: "js-tag-list"

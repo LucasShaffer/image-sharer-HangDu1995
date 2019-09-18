@@ -6,10 +6,8 @@ class ImageTest < ActiveSupport::TestCase
     assert_not image.save
 
     error_link = image.errors.details[:link][0][:error]
-    error_tags = image.errors.details[:tag_list][0][:error]
 
     assert_equal :blank, error_link
-    assert_equal 'You need to enter at least one tag', error_tags
   end
 
   test 'should report error when non-valid link' do
@@ -19,10 +17,8 @@ class ImageTest < ActiveSupport::TestCase
     assert_not image.save
 
     error_link = image.errors.details[:link][0][:error]
-    error_tags = image.errors.details[:tag_list][0][:error]
 
     assert_equal :url, error_link
-    assert_equal 'You need to enter at least one tag', error_tags
   end
 
   test 'should report error when no tag' do
@@ -33,9 +29,6 @@ class ImageTest < ActiveSupport::TestCase
 
     error_tags = image.errors.details[:tag_list][0][:error]
     assert_equal 'You need to enter at least one tag', error_tags
-
-    n_error_link = image.errors.details[:link].length
-    assert_equal 0, n_error_link
   end
 
   test 'should pass when valid link and tags' do
