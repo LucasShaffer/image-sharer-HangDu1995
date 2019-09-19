@@ -1,3 +1,7 @@
+<h1>
+  Add new image
+</h1>
+
 <%= simple_form_for @image do |form| %>
   <p>
     <%= form.input :link, class: "js-link", as: :string %>
@@ -16,9 +20,7 @@
     %>
   </p>
 
-  <p>
-    <%= form.submit %>
-  </p>
+  <%= form.submit %>
 <% end %>
 
 <%= link_to 'Back', images_path %>
