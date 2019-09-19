@@ -9,6 +9,7 @@ class App extends Component {
     return (
       <div>
         <Header title={'Tell us what you think'} />
+        <h1>React</h1>
         /* Put your components here: Flash Message, Form, Footer */
       </div>
     )
