@@ -3,21 +3,20 @@
 </h1>
 
 <%= simple_form_for @image do |form| %>
-    <%= 'Use comma to separate tags' %><br>
-    <%=
-      form.input :tag_list, required: true,
-                 input_html: {
-                   value: @image.tag_list.to_s,
-                   placeholder: 'dog, happy'
-                 },
-                 class: "js-tag-list"
+  <%= 'Use comma to separate tags' %><br>
+  <%=
+    form.input :tag_list, required: true,
+               input_html: {
+                 value: @image.tag_list.to_s,
+                 placeholder: 'dog, happy'
+               },
+               class: "js-tag-list"
 
-    %>
-  </p>
+  %>
 
-  <p>
-    <%= form.submit %>
-  </p>
+  <br>
+
+  <%= form.submit %>
 <% end %>
 
 <%= link_to 'Back', images_path %>

@@ -18,9 +18,9 @@
   ----------------------------------------------------------
 </p>
 
-<div id="image_list", class = "js-image-list">
+<div id="image_list" class = "js-image-list">
   <% @images.each do |image| %>
-    <div id="image_card", class = "js-image-card">
+    <div id="image_card" class = "js-image-card">
       <p>
         <%= image_tag(image.link, :width => 400, :crop=>'limit') %>
       </p>
@@ -39,15 +39,15 @@
         <% end %>
       </p>
 
-      <table class="js-action-list">
-        <tr>
-          <td class="js-show"><%= link_to 'Show', image_path(image) %></td>
-          <td class="js-destroy"><%= link_to 'Destroy', image_path(image),
+      <div class="js-action-list">
+        <div class="row">
+          <div class="col-sm-1 js-show"><%= link_to 'Show', image_path(image) %></div>
+          <div class="col-sm-1 js-destroy"><%= link_to 'Destroy', image_path(image),
                                              method: :delete,
-                                             data: { confirm: 'Are you sure?' } %></td>
-          <td class="js-edit"><%= link_to 'Edit', edit_image_path(image) %></td>
-        </tr>
-      </table>
+                                             data: { confirm: 'Are you sure?' } %></div>
+          <div class="col-sm-1 js-edit"><%= link_to 'Edit', edit_image_path(image) %></div>
+        </div>
+      </div>
 
       <p>
         ----------------------------------------------------------
