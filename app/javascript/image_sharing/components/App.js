@@ -11,7 +11,7 @@ class App extends Component {
         <Header title="Tell us what you think" />
 
         <form>
-          <label>
+          <label htmlFor="comments">
               Comment:
 
             <div>
@@ -24,7 +24,7 @@ class App extends Component {
 
         <Footer />
       </div>
-    )
+    );
   }
 }
 

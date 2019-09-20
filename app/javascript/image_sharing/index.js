@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
 import App from './components/App';
-import FeedbackStore from './stores/FeedbackStore';
+import FeedbackShop from './stores/FeedbackStore';
 
 const stores = {
-  feedbackStore: new FeedbackStore()
+  feedbackStore: new FeedbackShop()
 };
 
 /* Initialize your store here*/

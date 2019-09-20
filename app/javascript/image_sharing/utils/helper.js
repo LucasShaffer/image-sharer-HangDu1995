@@ -1,3 +1,5 @@
+/*eslint-disable */
+
 import 'whatwg-fetch';
 
 const HEADERS = {
@@ -71,3 +73,5 @@ export function post(path, body) {
     redirect: 'error',
   }).then(checkResponseStatus);
 }
+
+/*eslint-enable */
