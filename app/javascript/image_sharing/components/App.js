@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
 import { inject } from 'mobx-react';
 import Header from './Header';
-import Footer from "./Footer";
+import Footer from './Footer';
 
 class App extends Component {
   /* Add Prop Types check*/
   render() {
     return (
       <div>
-        <Header title={'Tell us what you think'} />
-        <h1>React</h1>
-        /* Put your components here: Flash Message, Form, Footer */
+        <Header title="Tell us what you think" />
+
+        <form>
+          <label>
+              Comment:
+
+            <div>
+              <textarea type="text" name="comment" />
+            </div>
+
+            <input type="submit" value="Submit" />
+          </label>
+        </form>
+
+        <Footer />
       </div>
     )
   }
 }
 
-export default inject(
-  'stores'
-)(App);
+export default inject('stores')(App);
