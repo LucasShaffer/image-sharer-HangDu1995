@@ -11,9 +11,12 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "coffeescript": "1.12.7",
     "eslint-config-appfolio-react": "^1.1.0",
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
     "prop-types": "^15.6.1",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "reactstrap": "^7.1.0"
   },
   "devDependencies": {
     "assert": "^1.4.1",

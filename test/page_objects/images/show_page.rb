@@ -14,12 +14,12 @@ module PageObjects
       end
 
       def delete
-        node.click_on('Destroy')
+        node.click_on('Delete')
         yield node.driver.browser.switch_to.alert
       end
 
       def delete_and_confirm!
-        node.click_on('Destroy')
+        node.click_on('Delete')
         node.driver.browser.switch_to.alert.accept
         window.change_to(IndexPage)
       end

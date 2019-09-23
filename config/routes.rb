@@ -3,4 +3,10 @@ Rails.application.routes.draw do
   resources :images, only: %i[show new create index destroy edit update]
 
   root 'images#index'
+
+  resources :feedbacks, only: [:new]
+
+  namespace :api do
+    resource :feedbacks, only: [:create]
+  end
 end
