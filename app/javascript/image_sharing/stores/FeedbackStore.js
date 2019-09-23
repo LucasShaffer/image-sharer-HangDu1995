@@ -1,4 +1,4 @@
-import {action, observable} from "mobx";
+import { action, observable } from 'mobx';
 
 export class FeedbackStore {
   /* Implement your feedback store*/
@@ -6,13 +6,13 @@ export class FeedbackStore {
   @observable comment = '';
 
   @action
-  updateName(name){
-    this.name = name
+  updateName(name) {
+    this.name = name;
   }
 
   @action
-  updateComment(comment){
-    this.comment = comment
+  updateComment(comment) {
+    this.comment = comment;
   }
 }
 

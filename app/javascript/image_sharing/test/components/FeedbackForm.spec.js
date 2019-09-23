@@ -1,36 +1,36 @@
 /* eslint-env mocha */
+import { shallow } from 'enzyme';
+import { Button, Form } from 'reactstrap';
 import React from 'react';
 import assert from 'assert';
-import { shallow } from 'enzyme';
-import FeedbackForm from "../../components/FeedbackForm";
-import { Button, Form, Label} from 'reactstrap';
-import FeedbackStore from "../../stores/FeedbackStore";
-import { expect } from 'chai';
+import FeedbackForm from '../../components/FeedbackForm';
+import FeedbackShop from '../../stores/FeedbackStore';
+
 
 describe('<FeedbackForm />', () => {
   it('should display correctly', () => {
-    const store = new FeedbackStore
-    const name = 'Jack'
-    const comment = 'Good'
-    store.updateName(name)
-    store.updateComment(comment)
+    const store = new FeedbackShop();
+    const name = 'Jack';
+    const comment = 'Good';
+    store.updateName(name);
+    store.updateComment(comment);
 
-    const wrapper = shallow(< FeedbackForm store={store}/>);
+    const wrapper = shallow(<FeedbackForm store={store} />);
 
-    const form = wrapper.find(Form)
+    const form = wrapper.find(Form);
     assert.strictEqual(form.length, 1);
 
-    assert.strictEqual(wrapper.find('.js-name-label').text(), 'Your Name:');
+    assert.strictEqual(wrapper.find('.js-name-label').length, 1);
 
-    const name_input = wrapper.find('.js-your-name')
-    assert.strictEqual(name_input.length, 1);
-    assert.strictEqual(name_input.prop("value"), name);
+    const nameInput = wrapper.find('.js-your-name');
+    assert.strictEqual(nameInput.length, 1);
+    assert.strictEqual(nameInput.prop('value'), name);
 
-    assert.strictEqual(wrapper.find('.js-comment-label').text(), 'Your Comment:');
+    assert.strictEqual(wrapper.find('.js-comment-label').length, 1);
 
-    const comment_input = wrapper.find('.js-your-comment')
-    assert.strictEqual(comment_input.length, 1);
-    assert.strictEqual(comment_input.prop('value'), comment);
+    const commentInput = wrapper.find('.js-your-comment');
+    assert.strictEqual(commentInput.length, 1);
+    assert.strictEqual(commentInput.prop('value'), comment);
 
     assert.strictEqual(wrapper.find(Button).length, 1);
   });

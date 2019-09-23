@@ -1,22 +1,22 @@
 /* eslint-env mocha */
 import assert from 'assert';
-import FeedbackStore from "../../stores/FeedbackStore";
+import FeedbackShop from '../../stores/FeedbackStore';
 
 describe('<FeedbackStore />', () => {
   it('should update name', () => {
-    const store = new FeedbackStore;
-    const new_name = 'Jack'
-    store.updateName(new_name)
+    const store = new FeedbackShop();
+    const newName = 'Jack';
+    store.updateName(newName);
 
-    assert.strictEqual(store.name, new_name);
+    assert.strictEqual(store.name, newName);
   });
 
   it('should update comment', () => {
-    const store = new FeedbackStore;
-    const new_comment = 'good'
-    store.updateComment(new_comment)
+    const store = new FeedbackShop();
+    const newComment = 'good';
+    store.updateComment(newComment);
 
-    assert.strictEqual(store.comment, new_comment);
+    assert.strictEqual(store.comment, newComment);
   });
 });
 
