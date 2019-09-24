@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import App from './components/App';
 import FeedbackShop from './stores/FeedbackStore';
+import App from './components/App';
 
 const stores = {
   feedbackStore: new FeedbackShop()
