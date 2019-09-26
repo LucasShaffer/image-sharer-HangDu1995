@@ -18,5 +18,14 @@ describe('<FeedbackStore />', () => {
 
     assert.strictEqual(store.comment, newComment);
   });
+
+  it('should set response', () => {
+    const store = new FeedbackShop();
+    const newResponse = 'ok';
+    store.setResponse(true, newResponse);
+
+    assert(store.message);
+    assert.strictEqual(store.response, newResponse);
+  });
 });
 

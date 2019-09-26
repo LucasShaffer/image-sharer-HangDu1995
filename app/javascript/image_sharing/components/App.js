@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from './Header';
 import Footer from './Footer';
 import FeedbackForm from './FeedbackForm';
-
+import FlashMessage from './FlashMessage';
 
 @observer
 class App extends Component {
@@ -13,12 +13,18 @@ class App extends Component {
     stores: PropTypes.object.isRequired
   }
 
+  constructor(props) {
+    super(props);
+    this.store = this.props.stores.feedbackStore;
+  }
+
+
   render() {
-    const store = this.props.stores.feedbackStore;
     return (
       <div>
         <Header title="Tell us what you think" />
-        <FeedbackForm store={store} />
+        <FlashMessage store={this.store} />
+        <FeedbackForm store={this.store} />
         <Footer />
       </div>
     );

@@ -1,7 +1,7 @@
 module Api
   class FeedbacksController < ApplicationController
     def create
-      # Implement your create action
+      head :no_content
     end
   end
 end
