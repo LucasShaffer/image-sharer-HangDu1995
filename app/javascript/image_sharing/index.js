@@ -9,7 +9,6 @@ const stores = {
 };
 
 /* Initialize your store here*/
-
 ReactDOM.render(
   <Provider stores={stores}>
     <App />

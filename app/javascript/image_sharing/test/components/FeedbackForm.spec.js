@@ -1,19 +1,18 @@
 /* eslint-env mocha */
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { Button, Form } from 'reactstrap';
 import React from 'react';
 import assert from 'assert';
 import FeedbackForm from '../../components/FeedbackForm';
-import FeedbackShop from '../../stores/FeedbackStore';
 
 
 describe('<FeedbackForm />', () => {
   it('should display correctly', () => {
-    const store = new FeedbackShop();
-    const name = 'Jack';
-    const comment = 'Good';
-    store.updateName(name);
-    store.updateComment(comment);
+    const store = {
+      name: 'Jack',
+      comment: 'Good'
+    };
 
     const wrapper = shallow(<FeedbackForm store={store} />);
 
@@ -24,14 +23,30 @@ describe('<FeedbackForm />', () => {
 
     const nameInput = wrapper.find('.js-your-name');
     assert.strictEqual(nameInput.length, 1);
-    assert.strictEqual(nameInput.prop('value'), name);
+    assert.strictEqual(nameInput.prop('value'), store.name);
 
     assert.strictEqual(wrapper.find('.js-comment-label').length, 1);
 
     const commentInput = wrapper.find('.js-your-comment');
     assert.strictEqual(commentInput.length, 1);
-    assert.strictEqual(commentInput.prop('value'), comment);
+    assert.strictEqual(commentInput.prop('value'), store.comment);
 
     assert.strictEqual(wrapper.find(Button).length, 1);
+  });
+
+  it('should submit feedback', () => {
+    const sandbox = sinon.createSandbox();
+
+    const store = {
+      submitFeedback: sandbox.stub(),
+    };
+
+    const wrapper = shallow(<FeedbackForm store={store} />);
+
+    wrapper.find(Button).simulate('click');
+
+    sandbox.assert.called(store.submitFeedback);
+
+    sandbox.restore();
   });
 });

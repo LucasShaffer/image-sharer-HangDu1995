@@ -16,12 +16,14 @@
     "prop-types": "^15.6.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "reactstrap": "^7.1.0"
+    "react-native": "^0.61.1",
+    "reactstrap": "^7.1.0",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "assert": "^1.4.1",
     "babel-eslint": "^10.0.1",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^5.15.1",
@@ -29,8 +31,9 @@
     "jsdom": "^11.11.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^5.2.0",
+    "react-alert": "^5.5.0",
     "react-test-renderer": "^16.8.4",
-    "sinon": "^6.0.1",
+    "sinon": "^6.3.5",
     "webpack-dev-server": "^3.2.1"
   },
   "scripts": {

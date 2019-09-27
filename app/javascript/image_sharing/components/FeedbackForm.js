@@ -3,12 +3,15 @@ import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
 @observer
 class FeedbackForm extends Component {
   /* Add Prop Types check*/
   static propTypes = {
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
+  }
+
+  onClickHandler() {
+    this.props.store.submitFeedback();
   }
 
   render() {
@@ -34,7 +37,7 @@ class FeedbackForm extends Component {
             placeholder="please enter your comment"
           />
         </FormGroup>
-        <Button>Submit</Button>
+        <Button onClick={() => this.onClickHandler()}>Submit</Button>
       </Form>
     );
   }
