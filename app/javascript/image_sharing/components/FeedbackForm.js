@@ -2,18 +2,16 @@ import { observer } from 'mobx-react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { PostFeedbackService } from '../services/PostFeedbackService';
 
 @observer
 class FeedbackForm extends Component {
   /* Add Prop Types check*/
   static propTypes = {
-    store: PropTypes.object.isRequired
+    store: PropTypes.object.isRequired,
   }
 
-  onClickHandler(store) {
-    const service = new PostFeedbackService(store);
-    service.postFeedback();
+  onClickHandler() {
+    this.props.store.startService();
   }
 
   render() {
@@ -39,7 +37,7 @@ class FeedbackForm extends Component {
             placeholder="please enter your comment"
           />
         </FormGroup>
-        <Button onClick={() => this.onClickHandler(this.props.store)}>Submit</Button>
+        <Button onClick={() => this.onClickHandler()}>Submit</Button>
       </Form>
     );
   }

@@ -10,25 +10,19 @@ import FlashMessage from './FlashMessage';
 class App extends Component {
   /* Add Prop Types check*/
   static propTypes = {
-    stores: PropTypes.object.isRequired
-  }
-
-  constructor(props) {
-    super(props);
-    this.store = this.props.stores.feedbackStore;
-  }
-
+    stores: PropTypes.object.isRequired,
+  };
 
   render() {
     return (
       <div>
         <Header title="Tell us what you think" />
-        <FlashMessage store={this.store} />
-        <FeedbackForm store={this.store} />
+        <FlashMessage store={this.props.stores.feedbackStore} />
+        <FeedbackForm store={this.props.stores.feedbackStore} />
         <Footer />
       </div>
     );
   }
 }
 
-export default inject('stores')(App);
+export default inject('stores', 'services')(App);

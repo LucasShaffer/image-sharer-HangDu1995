@@ -1,9 +1,11 @@
 /* eslint-env mocha */
+import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { Button, Form } from 'reactstrap';
 import React from 'react';
 import assert from 'assert';
 import FeedbackForm from '../../components/FeedbackForm';
+
 
 describe('<FeedbackForm />', () => {
   it('should display correctly', () => {
@@ -30,5 +32,21 @@ describe('<FeedbackForm />', () => {
     assert.strictEqual(commentInput.prop('value'), store.comment);
 
     assert.strictEqual(wrapper.find(Button).length, 1);
+  });
+
+  it('should start post feedback service', () => {
+    const sandbox = sinon.createSandbox();
+
+    const store = {
+      startService: sandbox.stub(),
+    };
+
+    const wrapper = shallow(<FeedbackForm store={store} />);
+
+    wrapper.find(Button).simulate('click');
+
+    sandbox.assert.called(store.startService);
+
+    sandbox.restore();
   });
 });

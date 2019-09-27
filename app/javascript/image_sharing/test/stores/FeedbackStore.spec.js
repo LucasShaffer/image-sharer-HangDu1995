@@ -1,10 +1,12 @@
 /* eslint-env mocha */
 import assert from 'assert';
-import FeedbackShop from '../../stores/FeedbackStore';
+import sinon from 'sinon';
+import { FeedbackStore } from '../../stores/FeedbackStore';
+import { PostFeedbackService } from '../../services/PostFeedbackService';
 
 describe('<FeedbackStore />', () => {
   it('should update name', () => {
-    const store = new FeedbackShop();
+    const store = new FeedbackStore();
     const newName = 'Jack';
     store.updateName(newName);
 
@@ -12,7 +14,7 @@ describe('<FeedbackStore />', () => {
   });
 
   it('should update comment', () => {
-    const store = new FeedbackShop();
+    const store = new FeedbackStore();
     const newComment = 'good';
     store.updateComment(newComment);
 
@@ -20,12 +22,35 @@ describe('<FeedbackStore />', () => {
   });
 
   it('should set response', () => {
-    const store = new FeedbackShop();
+    const store = new FeedbackStore();
     const newResponse = 'ok';
-    store.setResponse(true, newResponse);
+    store.setResponse(newResponse);
 
-    assert(store.message);
     assert.strictEqual(store.response, newResponse);
+  });
+
+  it('should reset form', () => {
+    const store = new FeedbackStore();
+    store.updateName('Jack');
+    store.updateComment('Good');
+
+    store.resetForm();
+
+    assert.strictEqual(store.name, '');
+    assert.strictEqual(store.comment, '');
+  });
+
+  it('should start service', () => {
+    const sandbox = sinon.createSandbox();
+
+    const stubFeedback = sandbox.stub(PostFeedbackService.prototype, 'postFeedback');
+
+    const store = new FeedbackStore();
+    store.startService();
+
+    sandbox.assert.called(stubFeedback);
+
+    sandbox.restore();
   });
 });
 
