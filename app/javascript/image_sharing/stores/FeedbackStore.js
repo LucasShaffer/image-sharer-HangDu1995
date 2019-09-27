@@ -39,7 +39,7 @@ export class FeedbackStore {
       comment: this.comment
     };
 
-    this.service.postFeedback(data).then((response) => {
+    return this.service.postFeedback(data).then((response) => {
       if (response.success) {
         this.setResponse('Your comment is added successfully!');
         this.resetForm();

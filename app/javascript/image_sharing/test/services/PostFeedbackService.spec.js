@@ -15,7 +15,7 @@ describe('<PostFeedbackService />', () => {
     sandbox.restore();
   });
 
-  it('should set success message', () => {
+  it('should return success', () => {
     const data = {
       name: 'Jack',
       comment: 'Good'
@@ -29,8 +29,7 @@ describe('<PostFeedbackService />', () => {
     });
   });
 
-
-  it('should set failed message', () => {
+  it('should return failure', () => {
     const data = {
       name: 'Jack',
       comment: 'Good'

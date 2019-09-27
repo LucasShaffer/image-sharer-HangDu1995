@@ -5,6 +5,8 @@ import { FeedbackStore } from '../../stores/FeedbackStore';
 
 
 describe('<FeedbackStore />', () => {
+  const sandbox = sinon.createSandbox();
+
   it('should update name', () => {
     const store = new FeedbackStore();
     const newName = 'Jack';
@@ -40,9 +42,7 @@ describe('<FeedbackStore />', () => {
     assert.strictEqual(store.comment, '');
   });
 
-  it('should submit feedback', () => {
-    const sandbox = sinon.createSandbox();
-
+  it('should submit feedback when response ', () => {
     const fakeService = {
       postFeedback: sandbox.stub().resolves({ success: true })
     };
@@ -51,8 +51,42 @@ describe('<FeedbackStore />', () => {
     store.submitFeedback();
 
     sandbox.assert.called(fakeService.postFeedback);
-
-    sandbox.restore();
   });
+
+  it('should send response when service succeeds', () => {
+    const fakeService = {
+      postFeedback: sandbox.stub().resolves({ success: true })
+    };
+
+    const store = new FeedbackStore(fakeService);
+    store.updateName('Jack');
+    store.updateComment('Good');
+
+    return store.submitFeedback().then(() => {
+      sandbox.assert.called(fakeService.postFeedback);
+      assert.strictEqual(store.response, 'Your comment is added successfully!');
+      assert.strictEqual(store.name, '');
+      assert.strictEqual(store.comment, '');
+    });
+  });
+
+  it('should send response when service fails', () => {
+    const fakeService = {
+      postFeedback: sandbox.stub().resolves({ success: false })
+    };
+
+    const store = new FeedbackStore(fakeService);
+    store.updateName('Jack');
+    store.updateComment('Good');
+
+    return store.submitFeedback().then(() => {
+      sandbox.assert.called(fakeService.postFeedback);
+      assert.strictEqual(store.response, 'Something is not right...');
+      assert.strictEqual(store.name, 'Jack');
+      assert.strictEqual(store.comment, 'Good');
+    });
+  });
+
+  sandbox.restore();
 });
 
