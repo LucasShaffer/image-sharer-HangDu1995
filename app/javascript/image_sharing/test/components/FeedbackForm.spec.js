@@ -34,18 +34,18 @@ describe('<FeedbackForm />', () => {
     assert.strictEqual(wrapper.find(Button).length, 1);
   });
 
-  it('should start post feedback service', () => {
+  it('should submit feedback', () => {
     const sandbox = sinon.createSandbox();
 
     const store = {
-      startService: sandbox.stub(),
+      submitFeedback: sandbox.stub(),
     };
 
     const wrapper = shallow(<FeedbackForm store={store} />);
 
     wrapper.find(Button).simulate('click');
 
-    sandbox.assert.called(store.startService);
+    sandbox.assert.called(store.submitFeedback);
 
     sandbox.restore();
   });

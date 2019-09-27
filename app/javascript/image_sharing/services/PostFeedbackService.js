@@ -2,21 +2,12 @@ import { post } from '../utils/helper';
 
 export class PostFeedbackService {
   /* Implement your service */
-  constructor(store) {
-    this.store = store;
-    this.data = {
-      name: store.name,
-      comment: store.comment
-    };
-  }
-
-  postFeedback() {
-    return post('http://localhost:3000/api/feedbacks', this.data).then(() => {
-      this.store.setResponse('Your comment is added successfully!');
-      this.store.resetForm();
+  postFeedback(data) {
+    return post('/api/feedbacks', data).then(() => {
+      return { success: true };
     })
       .catch(() => {
-        this.store.setResponse('Something is not right...');
+        return { success: false };
       });
   }
 }

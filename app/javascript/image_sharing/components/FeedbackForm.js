@@ -11,7 +11,7 @@ class FeedbackForm extends Component {
   }
 
   onClickHandler() {
-    this.props.store.startService();
+    this.props.store.submitFeedback();
   }
 
   render() {

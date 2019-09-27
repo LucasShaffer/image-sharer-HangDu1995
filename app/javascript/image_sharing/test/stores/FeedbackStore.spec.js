@@ -2,7 +2,7 @@
 import assert from 'assert';
 import sinon from 'sinon';
 import { FeedbackStore } from '../../stores/FeedbackStore';
-import { PostFeedbackService } from '../../services/PostFeedbackService';
+
 
 describe('<FeedbackStore />', () => {
   it('should update name', () => {
@@ -40,15 +40,17 @@ describe('<FeedbackStore />', () => {
     assert.strictEqual(store.comment, '');
   });
 
-  it('should start service', () => {
+  it('should submit feedback', () => {
     const sandbox = sinon.createSandbox();
 
-    const stubFeedback = sandbox.stub(PostFeedbackService.prototype, 'postFeedback');
+    const fakeService = {
+      postFeedback: sandbox.stub().resolves({ success: true })
+    };
 
-    const store = new FeedbackStore();
-    store.startService();
+    const store = new FeedbackStore(fakeService);
+    store.submitFeedback();
 
-    sandbox.assert.called(stubFeedback);
+    sandbox.assert.called(fakeService.postFeedback);
 
     sandbox.restore();
   });

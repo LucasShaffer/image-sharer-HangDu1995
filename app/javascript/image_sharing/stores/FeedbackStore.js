@@ -7,6 +7,10 @@ export class FeedbackStore {
   @observable comment = '';
   @observable response = null;
 
+  constructor(service = new PostFeedbackService()) {
+    this.service = service;
+  }
+
   @action
   updateName(name) {
     this.name = name;
@@ -29,9 +33,20 @@ export class FeedbackStore {
   }
 
   @action
-  startService() {
-    const service = new PostFeedbackService(this);
-    service.postFeedback();
+  submitFeedback() {
+    const data = {
+      name: this.name,
+      comment: this.comment
+    };
+
+    this.service.postFeedback(data).then((response) => {
+      if (response.success) {
+        this.setResponse('Your comment is added successfully!');
+        this.resetForm();
+      } else {
+        this.setResponse('Something is not right...');
+      }
+    });
   }
 }
 

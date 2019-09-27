@@ -25,4 +25,4 @@ class App extends Component {
   }
 }
 
-export default inject('stores', 'services')(App);
+export default inject('stores')(App);
