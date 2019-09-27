@@ -5,11 +5,7 @@ import { PostFeedbackService } from '../../services/PostFeedbackService';
 import * as api from '../../utils/helper';
 
 describe('<PostFeedbackService />', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
+  const sandbox = sinon.createSandbox();
 
   afterEach(() => {
     sandbox.restore();

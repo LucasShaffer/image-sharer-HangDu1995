@@ -7,6 +7,10 @@ import { FeedbackStore } from '../../stores/FeedbackStore';
 describe('<FeedbackStore />', () => {
   const sandbox = sinon.createSandbox();
 
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   it('should update name', () => {
     const store = new FeedbackStore();
     const newName = 'Jack';
@@ -86,7 +90,5 @@ describe('<FeedbackStore />', () => {
       assert.strictEqual(store.comment, 'Good');
     });
   });
-
-  sandbox.restore();
 });
 
